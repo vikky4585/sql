@@ -33,5 +33,39 @@ select last_name,count(last_name) from actor group by last_name having count(las
 update actor set first_name = 'HARPO' where first_name = 'GROUCHO' and last_name = 'WILLIAMS';
 
 #4d
+update actor set first_name = 'GROUCHO' where first_name = 'HARPO' and last_name = 'WILLIAMS';
+
+update actor set first_name = 'MUCHO GROUCHO' where first_name = 'GROUCHO' and last_name = 'WILLIAMS';
+
+#5a
+
+show create table address;
+
+#6a
+select s.first_name, s.last_name, a.address
+from staff as s 
+left join address as a on s.address_id = a.address_id
+
+#6b
+
+select s.first_name, s.last_name, sum(p.amount) as 'Total Amount'
+from staff as s 
+left join payment as p on s.staff_id = p.staff_id
+where payment_date like '2005-08%'
+group by s.staff_id;
+
+#6c
+
+select f.title , count(fa.actor_id) as 'Number Of Actors'
+from film as f
+inner join film_actor as fa where f.film_id = fa.film_id
+group by f.film_id;
+
+ #6d
+ select count(*) from inventory
+ where film_id in (select film_id from film where title='Hunchback Impossible');
+ 
+
+
  
 
