@@ -44,7 +44,7 @@ show create table address;
 #6a
 select s.first_name, s.last_name, a.address
 from staff as s 
-left join address as a on s.address_id = a.address_id
+left join address as a on s.address_id = a.address_id;
 
 #6b
 
@@ -65,6 +65,49 @@ group by f.film_id;
  select count(*) from inventory
  where film_id in (select film_id from film where title='Hunchback Impossible');
  
+ #6e
+ 
+ select c.first_name, c.last_name, sum(p.amount) as 'Total Amount Paid'
+ from customer as c
+ inner join payment as p where c.customer_id = p.payment_id
+ group by c.customer_id
+ order by c.last_name;
+ 
+ #7a
+ 
+ select * from film where
+ title like 'K%' or title like 'Q%'
+ and language_id in (select language_id from language where name= 'English');
+ 
+ #7b
+ 
+ select * from actor
+ where actor_id in 
+ (select actor_id from film_actor where film_id in 
+ (select film_id from film where title = 'Alone Trip'));
+ 
+#7c
+
+select first_name,last_name,email from customer 
+where address_id in 
+(select address_id from address where city_id in
+(select city_id from city where country_id in
+(select country_id from country where
+country = 'Canada')));
+
+#7d
+select * from film
+where film_id in (
+select film_id from film_category
+where category_id in
+(select category_id from category where name = 'Family'));
+
+#7e
+select title, count(rental_id) as 'Time Rented' from film
+inner join inventory on film.film_id = inventory.film_id
+inner join rental on inventory.inventory_id = rental.inventory_id
+group by film.film_id
+order by count(rental_id) desc
 
 
  
