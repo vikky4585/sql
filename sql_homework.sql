@@ -107,7 +107,52 @@ select title, count(rental_id) as 'Time Rented' from film
 inner join inventory on film.film_id = inventory.film_id
 inner join rental on inventory.inventory_id = rental.inventory_id
 group by film.film_id
-order by count(rental_id) desc
+order by count(rental_id) desc;
+
+#7f
+
+select s.store_id,sum(p.amount)  from store as s
+inner join inventory as i on s.store_id = i.store_id
+inner join rental as r on i.inventory_id = r.inventory_id
+inner join payment as p on r.rental_id = p.rental_id
+group by s.store_id;
+
+#7g
+
+select s.store_id, ci.city, co.country from store as s
+inner join address as a on s.address_id = a.address_id
+inner join city as ci on a.city_id = ci.city_id
+inner join country as co on ci.country_id = co.country_id;
+
+#7h
+
+select c.name, sum(p.amount) from category as c
+inner join film_category as fc on c.category_id = fc.category_id
+inner join inventory as i on fc.film_id = i.film_id
+inner join rental as r on i.inventory_id = r.inventory_id
+inner join payment as p on r.rental_id = p.rental_id
+group by c.name
+order by sum(p.amount) desc limit 5;
+
+
+#8a
+create view top_five_genres as
+select c.name, sum(p.amount) from category as c
+inner join film_category as fc on c.category_id = fc.category_id
+inner join inventory as i on fc.film_id = i.film_id
+inner join rental as r on i.inventory_id = r.inventory_id
+inner join payment as p on r.rental_id = p.rental_id
+group by c.name
+order by sum(p.amount) desc limit 5;
+
+#8b
+
+select * from top_five_genres;
+
+
+#8c
+
+drop view top_five_genres;
 
 
  
